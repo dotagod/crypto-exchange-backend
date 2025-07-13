@@ -103,7 +103,7 @@ A production-grade crypto exchange backend built with FastAPI, SQLAlchemy, Redis
 
 3. **Run the application:**
    ```bash
-   uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+   uvicorn app.main:app --reload --host 0.0.0.0 --port 8000 --loop uvloop
    ```
 
 ## 📊 API Endpoints

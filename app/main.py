@@ -1,3 +1,5 @@
+import uvloop
+import asyncio
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 import time
@@ -5,6 +7,9 @@ import logging
 
 from app.core.db import persistent_engine, Base
 from app.routes import auth, user, order, market, websocket
+
+# Configure uvloop as the event loop policy for better performance
+uvloop.install()
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -89,4 +94,4 @@ async def health_check():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000) 
+    uvicorn.run(app, host="0.0.0.0", port=8000, loop="uvloop") 
