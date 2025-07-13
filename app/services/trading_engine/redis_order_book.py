@@ -196,8 +196,8 @@ class RedisOrderBook:
             stop_price=stop_price
         )
         
-        # Use Redis pipeline for atomic operations
-        pipe = self.redis.pipeline()
+        # Use Redis pipeline with transaction for TRUE atomicity
+        pipe = self.redis.pipeline(transaction=True)
         
         try:
             # Store order details
@@ -276,7 +276,7 @@ class RedisOrderBook:
         order.status = OrderStatus.CANCELLED
         order.updated_at = datetime.utcnow()
         
-        pipe = self.redis.pipeline()
+        pipe = self.redis.pipeline(transaction=True)
         
         # Update order in Redis
         pipe.hset(f"order:{order_id}", mapping=order.to_dict())
@@ -580,7 +580,7 @@ class RedisOrderBook:
         # Get all order IDs for the symbol
         order_ids = self.redis.smembers(f"symbol:{symbol}:orders")
         
-        pipe = self.redis.pipeline()
+        pipe = self.redis.pipeline(transaction=True)
         
         for order_id in order_ids:
             # Get order details

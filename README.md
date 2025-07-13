@@ -754,7 +754,9 @@ async def start_redis_listener(self):
 
 **Atomic Operations:**
 - Lua scripts ensure consistency across all Redis operations
+- Redis pipelines with `transaction=True` for true atomicity
 - No race conditions during order matching
+- All-or-nothing operations prevent data inconsistency
 
 **Batch Processing:**
 - Redis pipelines for multiple operations
